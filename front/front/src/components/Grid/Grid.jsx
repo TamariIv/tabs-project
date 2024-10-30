@@ -1,9 +1,10 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Grid.module.css';
 import Tab from '../Tab/Tab';
+
 import { FaPlus } from "react-icons/fa";
 import { getTabs, createTab, updateTab, deleteTab } from '../../service/service';
+import { generateUniqueID } from '../../utils/utils';
 
 // Define a functional component
 const Grid = () => {
@@ -33,9 +34,12 @@ const Grid = () => {
     if (error) {
         return <div>Error: {error.message}</div>; // Render error state
     }
-    const addTab = () => {
+
+
+
+    const handleCreate = () => {
         const newTab = {
-            id: tabs.length + 1, // Generate a new ID (assuming IDs are sequential)
+            id: generateUniqueID(), // Generate a new ID (assuming IDs are sequential)
             color: "green",
             text: "Lorem ipsum dolo r sit amet"
         };
@@ -48,14 +52,14 @@ const Grid = () => {
         deleteTab(id);
     };
 
-    const handleUpdate = (id, updatedColor) => {
-        console.log("updateTabColor");
+    const handleUpdate = (id, updated) => {
+        console.log("handleUpdate");
         setTabs(prevTabs => 
             prevTabs.map(tab => 
-                tab.id === id ? { ...tab, color: updatedColor.color } : tab
+                tab.id === id ? { ...tab, ...updated } : tab
             )
         );
-        updateTab(id, updatedColor); // Call the API to update the tab on the server
+        updateTab(id, updated); // Call the API to update the tab on the server
     };
 
     return (
@@ -65,11 +69,11 @@ const Grid = () => {
                 key={tab.id} 
                 tab={tab} 
                 deleteTab={() => handleDelete(tab.id)}
-                updateTab={() => handleUpdate} />
+                updateTab={handleUpdate} />
             ))}
 
             <div className={styles.addTab}>
-                <FaPlus className={styles.plus} onClick={addTab} />
+                <FaPlus className={styles.plus} onClick={handleCreate} />
             </div>
         </div>
     );
