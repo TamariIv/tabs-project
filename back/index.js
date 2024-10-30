@@ -1,9 +1,15 @@
 const express = require('express');
+const cors = require('cors');
+
 const app = express();
 
 const PORT = 8080;
 
 app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:3000', 
+}));
+
 
 const db = [
     { id: 1, color: "orange", text: "Lorem ipsum dolor sit amet" },

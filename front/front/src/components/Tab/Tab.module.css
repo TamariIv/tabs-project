@@ -1,0 +1,50 @@
+.tab {
+    height: 10em;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.tab p {
+    height: 70%;
+}
+
+.bottomBar {
+    height: 30%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.icon {
+    color: rgb(65, 65, 65);
+    font-size: 20px;
+    margin: 0px 1.5rem;
+}
+
+.icon:hover {
+    cursor: pointer;
+}
+
+.editor {
+    display: flex; 
+    flex-direction: row;
+    gap: 2px; 
+    padding: 2px;
+    background-color: white;
+    width: 8rem;
+    margin-bottom: 1em;
+    border-radius: 15px;
+    align-items: center;
+}
+
+.colorPick {
+    border-radius: 50%;
+    width: 1em;
+    height: 1em;
+    margin-left: 4px;
+}
+
+.colorPick:hover {
+    cursor: pointer;
+}
