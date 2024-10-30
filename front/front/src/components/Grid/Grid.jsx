@@ -43,6 +43,7 @@ const Grid = () => {
             color: "green",
             text: "Lorem ipsum dolo r sit amet"
         };
+        console.log(newTab);
         setTabs([...tabs, newTab]); // Update the tabs state with the new tab
         createTab(newTab);
     };

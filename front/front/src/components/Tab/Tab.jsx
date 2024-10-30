@@ -5,28 +5,61 @@ import { colorMapping } from './color';
 import { FaTrashAlt } from "react-icons/fa";
 import { FaRegCircle } from "react-icons/fa";
 
-// Define a functional component
 const Tab = ({ tab, deleteTab, updateTab }) => {
 
     const { id, color, text } = tab;
-    const [isEditorOpen, setIsEditorOpen] = useState(false);
-    const toggleEditorVisibility = () => {
-        setIsEditorOpen(prevState => !prevState);
+    const [isColorEditorOpen, setIsColorEditorOpen] = useState(false);
+    const [isTextEditorOpen, setIsTextEditorOpen] = useState(false);
+    const [editedText, setEditedText] = useState(text);
+
+    const toggleColorEditorVisibility = () => {
+        setIsColorEditorOpen(prevState => !prevState);
     };
+    const toggleTextEditorVisibility = () => {
+        setIsTextEditorOpen(prevState => !prevState);
+    };
+
     const handleColorChange = (newColor) => {
-        console.log("handleColorChange");
         updateTab(id, { color: newColor });
-        setIsEditorOpen(false);
+        setIsColorEditorOpen(false);
     }
+
+    const handleTextChange = () => {
+        updateTab(id, { text: editedText });
+        setIsTextEditorOpen(false);
+    }
+
+    const handleInputChange = (e) => {
+        setEditedText(e.target.value); // Update the edited text as the user types
+    };
+
+    const handleBlur = () => {
+        handleTextChange(); // Update the text on blur
+    };
 
     return (
         <div className={styles.tab} style={{ backgroundColor: colorMapping[color] || color }}>
-            <p>
-                {text}
-            </p>
+            {isTextEditorOpen ? (
+                <div className={styles.wrapper}>
+                    <input
+                        type="text"
+                        value={editedText}
+                        onChange={handleInputChange}
+                        onBlur={handleBlur} // Exit editing mode on blur
+                        autoFocus // Focus the input on edit
+                    />
+                </div>
+            ) : (
+                <p onClick={toggleTextEditorVisibility}>
+                    {text}
+                </p>
+            )
+            }
+
+
             <div className={styles.bottomBar} >
-                <FaRegCircle className={styles.icon} onClick={toggleEditorVisibility} />
-                {isEditorOpen && (
+                <FaRegCircle className={styles.icon} onClick={toggleColorEditorVisibility} />
+                {isColorEditorOpen && (
                     <div className={styles.editor}>
                         {Object.values(colorMapping).map((color, index) => (
                             <div className={styles.colorPick}
