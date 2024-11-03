@@ -1,10 +1,10 @@
-export const colorMapping = {
-    orange: 'rgb(255, 238, 140)', // Example of a brighter shade of orange
-    purple: 'rgb(255, 188, 254)', // A more vibrant purple
-    green: 'rgb(191, 255, 135)', // A darker shade of green
-    blue: 'rgb(135, 201, 255)', // A brighter blue
+export const colorMapping = [
+    '#ffee8c', // orange
+    '#ffbcfe', // purple
+    '#bfff87', // green
+    '#87c9ff', // blue
     // Add more colors as needed
-};
+];
 
 // rgb(191, 255, 135) green
 // rgb(135, 201, 255) blue

@@ -5,6 +5,7 @@ import { colorMapping } from './color';
 import { FaTrashAlt } from "react-icons/fa";
 import { FaRegCircle } from "react-icons/fa";
 
+
 const Tab = ({ tab, deleteTab, updateTab }) => {
 
     const { id, color, text } = tab;
@@ -38,7 +39,7 @@ const Tab = ({ tab, deleteTab, updateTab }) => {
     };
 
     return (
-        <div className={styles.tab} style={{ backgroundColor: colorMapping[color] || color }}>
+        <div className={styles.tab} style={{ backgroundColor: color }}>
             {isTextEditorOpen ? (
                 <div className={styles.wrapper}>
                     <input
@@ -61,9 +62,10 @@ const Tab = ({ tab, deleteTab, updateTab }) => {
                 <FaRegCircle className={styles.icon} onClick={toggleColorEditorVisibility} />
                 {isColorEditorOpen && (
                     <div className={styles.editor}>
-                        {Object.values(colorMapping).map((color, index) => (
+                        {/* render circle for each optional color */}
+                        {colorMapping.map((color) => (
                             <div className={styles.colorPick}
-                                key={index}
+                                key={color}
                                 style={{ backgroundColor: color, }}
                                 onClick={() => handleColorChange(color)}
                             ></div>
@@ -76,5 +78,4 @@ const Tab = ({ tab, deleteTab, updateTab }) => {
     );
 };
 
-// Export the component
 export default Tab;
