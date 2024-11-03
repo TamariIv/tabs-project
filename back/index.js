@@ -12,11 +12,13 @@ app.use(cors({
 
 
 const db = [
-    { id: 1, color: "orange", text: "Lorem ipsum dolor sit amet" },
-    { id: 2, color: "purple", text: "Ut enim ad minim veniam" },
-    { id: 3, color: "green", text: "Sed do eiusmod tempor incididunt" },
-    { id: 4, color: "blue", text: "Ut labore et dolore magna aliqua" }
+    { id: "1", color: "orange", text: "Lorem ipsum dolor sit amet" },
+    { id: "2", color: "purple", text: "Ut enim ad minim veniam" },
+    { id: "3", color: "green", text: "Sed do eiusmod tempor incididunt" },
+    { id: "4", color: "blue", text: "Ut labore et dolore magna aliqua" }
 ];
+
+
 // Define a basic route
 app.get('/', (req, res) => {
     res.send('Hello, World!');
@@ -28,7 +30,7 @@ app.get('/tabs', (req, res) => {
 
 app.get('/tabs/:id', (req, res) => {
     const id = req.params.id;
-    const tab = db.find(tab => tab.id === parseInt(id));
+    const tab = db.find(tab => tab.id === id);
     if (!tab) {
         return res.status(404).send('Tab not found');
     }
@@ -37,7 +39,7 @@ app.get('/tabs/:id', (req, res) => {
 
 app.post('/tabs', (req, res) => {
     const tab = {
-        id: db.length + 1,
+        id: req.body.id,
         color: req.body.color,
         text: req.body.text
     };
@@ -47,7 +49,7 @@ app.post('/tabs', (req, res) => {
 
 
 app.patch('/tabs/:id', (req, res) => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const tabIndex = db.findIndex((tab) => tab.id === id);
 
     if (tabIndex !== -1) {
@@ -59,7 +61,7 @@ app.patch('/tabs/:id', (req, res) => {
 });
 
 app.delete('/tabs/:id', (req, res) => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const tabIndex = db.findIndex((tab) => tab.id === id);
 
     if (tabIndex !== -1) {

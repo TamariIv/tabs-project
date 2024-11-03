@@ -1,30 +1,30 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Grid.module.css';
 import Tab from '../Tab/Tab';
+
 import { FaPlus } from "react-icons/fa";
 import { getTabs, createTab, updateTab, deleteTab } from '../../service/service';
+import { generateUniqueID } from '../../utils/utils';
 
-// Define a functional component
 const Grid = () => {
-    const [tabs, setTabs] = useState([]); // Initialize state for tabs
+    const [tabs, setTabs] = useState([]); 
     const [loading, setLoading] = useState(true); // State for loading status
-    const [error, setError] = useState(null); // State for error handling
+    const [error, setError] = useState(null); 
 
     useEffect(() => {
         const fetchTabs = async () => {
             try {
-                const tabData = await getTabs(); // Await the promise
-                setTabs(tabData); // Set the resolved data to state
+                const tabData = await getTabs(); 
+                setTabs(tabData); 
             } catch (err) {
-                setError(err); // Handle any errors
+                setError(err); 
             } finally {
-                setLoading(false); // Set loading to false after fetching
+                setLoading(false); 
             }
         };
 
-        fetchTabs(); // Call the fetch function
-    }, []); // Empty dependency array means this runs once when the component mounts
+        fetchTabs(); 
+    }, []); 
 
     if (loading) {
         return <div>Loading...</div>; // Render loading state
@@ -33,10 +33,13 @@ const Grid = () => {
     if (error) {
         return <div>Error: {error.message}</div>; // Render error state
     }
-    const addTab = () => {
+
+
+
+    const handleCreate = () => {
         const newTab = {
-            id: tabs.length + 1, // Generate a new ID (assuming IDs are sequential)
-            color: "green",
+            id: generateUniqueID(), 
+            color: "gainsboro",
             text: "Lorem ipsum dolo r sit amet"
         };
         setTabs([...tabs, newTab]); // Update the tabs state with the new tab
@@ -48,32 +51,35 @@ const Grid = () => {
         deleteTab(id);
     };
 
-    const handleUpdate = (id, updatedColor) => {
-        console.log("updateTabColor");
-        setTabs(prevTabs => 
-            prevTabs.map(tab => 
-                tab.id === id ? { ...tab, color: updatedColor.color } : tab
+    const handleUpdate = (id, updated) => {
+        setTabs(prevTabs =>
+            prevTabs.map(tab =>
+                tab.id === id ? { ...tab, ...updated } : tab
             )
         );
-        updateTab(id, updatedColor); // Call the API to update the tab on the server
+        updateTab(id, updated); 
     };
 
+
+
+
     return (
+
         <div className={styles.grid}>
             {tabs.map(tab => (
-                <Tab 
-                key={tab.id} 
-                tab={tab} 
-                deleteTab={() => handleDelete(tab.id)}
-                updateTab={() => handleUpdate} />
+                <Tab
+                    key={tab.id}
+                    tab={tab}
+                    deleteTab={() => handleDelete(tab.id)}
+                    updateTab={handleUpdate} />
             ))}
 
             <div className={styles.addTab}>
-                <FaPlus className={styles.plus} onClick={addTab} />
+                <FaPlus className={styles.plus} onClick={handleCreate} />
             </div>
         </div>
+
     );
 };
 
-// Export the component
 export default Grid;
